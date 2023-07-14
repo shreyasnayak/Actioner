@@ -6,9 +6,9 @@ Server::Server(QObject *parent) : QObject{parent}
     connect(server, &QTcpServer::newConnection, this, &Server::handleNewConnection);
 }
 
-void Server::start()
+void Server::start(QHostAddress address,quint16 &port)
 {
-    if (!server->listen(QHostAddress::Any, 12345))
+    if (!server->listen(address, port))
     {
        qCritical() << QString("Failed to start server %1").arg(server->errorString());
         return;
@@ -23,6 +23,7 @@ void Server::handleNewConnection()
     connect(clientSocket, &QTcpSocket::disconnected, this, &Server::handleDisconnected);
     qDebug() << "New client connected :" << clientSocket->peerAddress().toString() << clientSocket->peerPort();
 }
+
 void Server::handleReadyRead()
 {
         QTcpSocket *clientSocket = qobject_cast<QTcpSocket*>(sender());

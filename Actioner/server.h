@@ -7,6 +7,7 @@
 #include <QJsonObject>
 /**
  * @brief The Server class is designed to handle json message from TCP socket
+ * @author Shreyas Nayak
  */
 
 class Server : public QObject
@@ -14,7 +15,7 @@ class Server : public QObject
     Q_OBJECT
 public:
     explicit Server(QObject *parent = nullptr);
-    void start();
+    void start(QHostAddress address,quint16 &port);
 signals:
     void messageFromClient(QJsonObject &jsonMessage,QTcpSocket *clientSocket);
 private slots:
